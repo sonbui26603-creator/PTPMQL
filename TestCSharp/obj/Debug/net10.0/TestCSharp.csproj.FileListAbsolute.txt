@@ -1,0 +1,15 @@
+C:\Users\PC\DemoMVC\TestCSharp\bin\Debug\net10.0\TestCSharp.exe
+C:\Users\PC\DemoMVC\TestCSharp\bin\Debug\net10.0\TestCSharp.deps.json
+C:\Users\PC\DemoMVC\TestCSharp\bin\Debug\net10.0\TestCSharp.runtimeconfig.json
+C:\Users\PC\DemoMVC\TestCSharp\bin\Debug\net10.0\TestCSharp.dll
+C:\Users\PC\DemoMVC\TestCSharp\bin\Debug\net10.0\TestCSharp.pdb
+C:\Users\PC\DemoMVC\TestCSharp\obj\Debug\net10.0\TestCSharp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC\DemoMVC\TestCSharp\obj\Debug\net10.0\TestCSharp.AssemblyInfoInputs.cache
+C:\Users\PC\DemoMVC\TestCSharp\obj\Debug\net10.0\TestCSharp.AssemblyInfo.cs
+C:\Users\PC\DemoMVC\TestCSharp\obj\Debug\net10.0\TestCSharp.csproj.CoreCompileInputs.cache
+C:\Users\PC\DemoMVC\TestCSharp\obj\Debug\net10.0\TestCSharp.sourcelink.json
+C:\Users\PC\DemoMVC\TestCSharp\obj\Debug\net10.0\TestCSharp.dll
+C:\Users\PC\DemoMVC\TestCSharp\obj\Debug\net10.0\refint\TestCSharp.dll
+C:\Users\PC\DemoMVC\TestCSharp\obj\Debug\net10.0\TestCSharp.pdb
+C:\Users\PC\DemoMVC\TestCSharp\obj\Debug\net10.0\TestCSharp.genruntimeconfig.cache
+C:\Users\PC\DemoMVC\TestCSharp\obj\Debug\net10.0\ref\TestCSharp.dll
