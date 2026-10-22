@@ -1,0 +1,19 @@
+
+@model DemoMVC.Models.Khoa
+
+<h1>Thêm khoa</h1>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="TenKhoa" class="form-label">Tên khoa</label>
+        <input asp-for="TenKhoa" class="form-control" />
+        <span asp-validation-for="TenKhoa"
+              class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu</button>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</form>

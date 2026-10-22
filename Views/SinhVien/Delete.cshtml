@@ -1,0 +1,31 @@
+
+@model DemoMVC.Models.SinhVien
+
+<h1>Xóa sinh viên</h1>
+
+<div class="alert alert-warning">
+    Bạn có chắc chắn muốn xóa sinh viên này không?
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Mã sinh viên</dt>
+    <dd class="col-sm-9">@Model.Id</dd>
+
+    <dt class="col-sm-3">Họ tên</dt>
+    <dd class="col-sm-9">@Model.HoTen</dd>
+
+    <dt class="col-sm-3">Email</dt>
+    <dd class="col-sm-9">@Model.Email</dd>
+
+    <dt class="col-sm-3">Tuổi</dt>
+    <dd class="col-sm-9">@Model.Tuoi</dd>
+
+    <dt class="col-sm-3">Khoa</dt>
+    <dd class="col-sm-9">@(Model.Khoa?.TenKhoa ?? "Chưa có khoa")</dd>
+</dl>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>

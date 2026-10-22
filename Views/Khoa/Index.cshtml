@@ -1,0 +1,46 @@
+
+@model IEnumerable<DemoMVC.Models.Khoa>
+
+@{
+    ViewData["Title"] = "Danh sách khoa";
+}
+
+<h1>Danh sách khoa</h1>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Thêm khoa</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Mã khoa</th>
+            <th>Tên khoa</th>
+            <th>Số sinh viên</th>
+            <th>Chức năng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var khoa in Model)
+        {
+            <tr>
+                <td>@khoa.MaKhoa</td>
+                <td>@khoa.TenKhoa</td>
+                <td>@khoa.SinhViens.Count</td>
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@khoa.MaKhoa">Sửa</a> |
+                    <a asp-action="Delete"
+                       asp-route-id="@khoa.MaKhoa">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

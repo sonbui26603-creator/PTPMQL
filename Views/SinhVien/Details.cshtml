@@ -1,0 +1,24 @@
+
+@model DemoMVC.Models.SinhVien
+
+<h1>Chi tiết sinh viên</h1>
+
+<dl class="row">
+    <dt class="col-sm-3">Mã sinh viên</dt>
+    <dd class="col-sm-9">@Model.Id</dd>
+
+    <dt class="col-sm-3">Họ tên</dt>
+    <dd class="col-sm-9">@Model.HoTen</dd>
+
+    <dt class="col-sm-3">Email</dt>
+    <dd class="col-sm-9">@Model.Email</dd>
+
+    <dt class="col-sm-3">Tuổi</dt>
+    <dd class="col-sm-9">@Model.Tuoi</dd>
+
+    <dt class="col-sm-3">Khoa</dt>
+    <dd class="col-sm-9">@(Model.Khoa?.TenKhoa ?? "Chưa có khoa")</dd>
+</dl>
+
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Sửa</a>
+<a asp-action="Index" class="btn btn-secondary">Quay lại</a>
