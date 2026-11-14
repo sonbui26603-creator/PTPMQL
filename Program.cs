@@ -3,10 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using DemoMVC.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-Console.WriteLine(
-    "DefaultConnection = " +
-    (builder.Configuration.GetConnectionString("DefaultConnection")
-        ?? "NULL"));
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
