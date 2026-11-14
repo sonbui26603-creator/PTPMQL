@@ -18,7 +18,42 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+}
+
+.app-header .navbar-brand {
+  font-weight: 700;
+}
+
+.app-header .nav-link {
+  color: var(--bs-body-color);
+}
+
+.app-header .nav-link:hover,
+.app-header .nav-link:focus {
+  color: var(--bs-primary);
+}
+
+.app-footer {
+  padding: 1rem 0;
+}
+
+.app-footer .container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+@media (max-width: 575.98px) {
+  .app-footer .container {
+    flex-direction: column;
+  }
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
