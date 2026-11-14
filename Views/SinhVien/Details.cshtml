@@ -1,0 +1,37 @@
+@model DemoMVC.Models.SinhVien
+
+@{
+    ViewData["Title"] = "Chi tiết sinh viên";
+}
+
+<div class="container">
+    <h1>Chi tiết sinh viên</h1>
+
+    @if (TempData["ThongBao"] is string thongBao)
+    {
+        <div class="alert alert-success" role="alert">@thongBao</div>
+    }
+
+    <dl class="row">
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.MaSinhVien)</dt>
+        <dd class="col-sm-9">@Model.MaSinhVien</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.HoTen)</dt>
+        <dd class="col-sm-9">@Model.HoTen</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.NamNhapHoc)</dt>
+        <dd class="col-sm-9">@Model.NamNhapHoc</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.MaHeDaoTao)</dt>
+        <dd class="col-sm-9">@Model.MaHeDaoTao</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.MaNganh)</dt>
+        <dd class="col-sm-9">@Model.MaNganh</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Khoa)</dt>
+        <dd class="col-sm-9">@Model.Khoa.TenKhoa (@Model.MaKhoa)</dd>
+    </dl>
+
+    <a asp-action="Edit" asp-route-id="@Model.MaSinhVien" class="btn btn-primary">Sửa</a>
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+</div>

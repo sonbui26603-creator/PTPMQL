@@ -44,6 +44,144 @@ namespace DemoMVC.Migrations
 
                     b.ToTable("SanPhams");
                 });
+
+            modelBuilder.Entity("DemoMVC.Models.Khoa", b =>
+                {
+                    b.Property<string>("MaKhoa")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("TenKhoa")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("MaKhoa");
+
+                    b.ToTable("Khoas");
+
+                    b.HasData(
+                        new
+                        {
+                            MaKhoa = "CNTT",
+                            TenKhoa = "Khoa Công nghệ thông tin"
+                        },
+                        new
+                        {
+                            MaKhoa = "DCK",
+                            TenKhoa = "Khoa Cơ - Điện"
+                        },
+                        new
+                        {
+                            MaKhoa = "DKS",
+                            TenKhoa = "Khoa Dầu khí"
+                        },
+                        new
+                        {
+                            MaKhoa = "DGC",
+                            TenKhoa = "Khoa Địa chất"
+                        },
+                        new
+                        {
+                            MaKhoa = "DMT",
+                            TenKhoa = "Khoa Môi trường"
+                        },
+                        new
+                        {
+                            MaKhoa = "DMO",
+                            TenKhoa = "Khoa Mỏ"
+                        },
+                        new
+                        {
+                            MaKhoa = "DCC",
+                            TenKhoa = "Khoa Xây dựng"
+                        },
+                        new
+                        {
+                            MaKhoa = "KTQTKD",
+                            TenKhoa = "Khoa Kinh tế và Quản trị kinh doanh"
+                        },
+                        new
+                        {
+                            MaKhoa = "TDBD",
+                            TenKhoa = "Khoa Trắc địa - Bản đồ và Quản lý đất đai"
+                        },
+                        new
+                        {
+                            MaKhoa = "KHTC",
+                            TenKhoa = "Khoa Khoa học cơ bản"
+                        });
+
+                    b.Navigation("SinhViens");
+                });
+
+            modelBuilder.Entity("DemoMVC.Models.SinhVien", b =>
+                {
+                    b.Property<string>("MaSinhVien")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("HoTen")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<int>("NamNhapHoc")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MaHeDaoTao")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
+
+                    b.Property<string>("MaNganh")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
+
+                    b.Property<string>("MaKhoa")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.HasKey("MaSinhVien");
+
+                    b.HasIndex("MaKhoa");
+
+                    b.ToTable("SinhViens");
+                });
+
+            modelBuilder.Entity("DemoMVC.Models.SinhVienCodeSequence", b =>
+                {
+                    b.Property<int>("NamNhapHoc")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MaHeDaoTao")
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
+
+                    b.Property<string>("MaNganh")
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
+
+                    b.Property<int>("SoThuTuCuoi")
+                        .HasColumnType("int");
+
+                    b.HasKey("NamNhapHoc", "MaHeDaoTao", "MaNganh");
+
+                    b.ToTable("SinhVienCodeSequences");
+                });
+
+            modelBuilder.Entity("DemoMVC.Models.SinhVien", b =>
+                {
+                    b.HasOne("DemoMVC.Models.Khoa", "Khoa")
+                        .WithMany("SinhViens")
+                        .HasForeignKey("MaKhoa")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Khoa");
+                });
 #pragma warning restore 612, 618
         }
     }

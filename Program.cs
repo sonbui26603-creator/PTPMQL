@@ -1,9 +1,11 @@
 
 using Microsoft.EntityFrameworkCore;
 using DemoMVC.Data;
+using DemoMVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<SinhVienCodeGenerator>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(
