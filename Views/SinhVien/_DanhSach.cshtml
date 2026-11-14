@@ -1,0 +1,50 @@
+@model IEnumerable<DemoMVC.Models.SinhVien>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Mã sinh viên</th>
+                <th>Họ tên</th>
+                <th>Năm nhập học</th>
+                <th>Hệ</th>
+                <th>Mã ngành</th>
+                <th>Khoa</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var sinhVien in Model)
+        {
+            <tr>
+                <td>@sinhVien.MaSinhVien</td>
+                <td>@sinhVien.HoTen</td>
+                <td>@sinhVien.NamNhapHoc</td>
+                <td>@sinhVien.MaHeDaoTao</td>
+                <td>@sinhVien.MaNganh</td>
+                <td>@sinhVien.Khoa.TenKhoa</td>
+                <td class="text-nowrap">
+                    <button type="button"
+                            class="btn btn-sm btn-outline-info"
+                            data-student-modal-url="@Url.Action("Details", new { id = sinhVien.MaSinhVien })"
+                            data-student-modal-title="Chi tiết sinh viên">
+                        Chi tiết
+                    </button>
+                    <button type="button"
+                            class="btn btn-sm btn-outline-primary"
+                            data-student-modal-url="@Url.Action("Edit", new { id = sinhVien.MaSinhVien })"
+                            data-student-modal-title="Sửa sinh viên">
+                        Sửa
+                    </button>
+                    <button type="button"
+                            class="btn btn-sm btn-outline-danger"
+                            data-student-modal-url="@Url.Action("Delete", new { id = sinhVien.MaSinhVien })"
+                            data-student-modal-title="Xóa sinh viên">
+                        Xóa
+                    </button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

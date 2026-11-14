@@ -1,0 +1,21 @@
+@model DemoMVC.Models.SinhVien
+
+<dl class="row mb-0">
+    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.MaSinhVien)</dt>
+    <dd class="col-sm-8">@Model.MaSinhVien</dd>
+
+    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.HoTen)</dt>
+    <dd class="col-sm-8">@Model.HoTen</dd>
+
+    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.NamNhapHoc)</dt>
+    <dd class="col-sm-8">@Model.NamNhapHoc</dd>
+
+    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.MaHeDaoTao)</dt>
+    <dd class="col-sm-8">@Model.MaHeDaoTao</dd>
+
+    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.MaNganh)</dt>
+    <dd class="col-sm-8">@Model.MaNganh</dd>
+
+    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Khoa)</dt>
+    <dd class="col-sm-8">@Model.Khoa.TenKhoa (@Model.MaKhoa)</dd>
+</dl>

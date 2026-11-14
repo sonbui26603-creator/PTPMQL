@@ -36,12 +36,13 @@ Số thứ tự giới hạn từ `0001` đến `9999` cho mỗi tổ hợp. Khi
 
 ## 4. CRUD và chạy migration
 
-Giao diện CRUD nằm tại `/SinhVien`:
+Giao diện CRUD nằm tại `/SinhVien` và dùng Bootstrap modal kết hợp Ajax:
 
-- Danh sách kèm tên khoa.
+- Danh sách kèm tên khoa được tải trong trang.
 - Tạo sinh viên với dropdown chọn khoa; mã được sinh khi lưu.
-- Xem chi tiết, sửa họ tên/khoa, và xác nhận xóa.
-- Mã sinh viên giữ nguyên khi sửa thông tin.
+- Xem chi tiết, sửa họ tên/khoa, và xác nhận xóa đều mở trong modal.
+- Form gửi Ajax; lỗi validation trả lại nội dung modal để sửa, thành công chỉ tải lại bảng mà không điều hướng toàn trang.
+- Các form POST vẫn dùng antiforgery token; mã sinh viên giữ nguyên khi sửa thông tin.
 
 Từ thư mục chứa file project, tạo migration và cập nhật SQL Server:
 

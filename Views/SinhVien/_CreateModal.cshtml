@@ -1,0 +1,51 @@
+@model DemoMVC.ViewModels.SinhVienCreateViewModel
+
+<form asp-action="Create"
+      method="post"
+      data-student-ajax-form
+      data-success-message="Đã thêm sinh viên thành công.">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <p class="text-muted">
+        Mã tự động có dạng YY + mã hệ + mã ngành + số thứ tự 4 chữ số.
+        Bộ đếm bắt đầu từ 0001 cho mỗi tổ hợp năm, hệ và ngành.
+    </p>
+
+    <div class="mb-3">
+        <label asp-for="HoTen" class="form-label"></label>
+        <input asp-for="HoTen" class="form-control" />
+        <span asp-validation-for="HoTen" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MaKhoa" class="form-label"></label>
+        <select asp-for="MaKhoa" asp-items="Model.DanhSachKhoa" class="form-select">
+            <option value="">-- Chọn khoa --</option>
+        </select>
+        <span asp-validation-for="MaKhoa" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NamNhapHoc" class="form-label"></label>
+        <input asp-for="NamNhapHoc" class="form-control" />
+        <span asp-validation-for="NamNhapHoc" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MaHeDaoTao" class="form-label"></label>
+        <input asp-for="MaHeDaoTao" class="form-control" inputmode="numeric" />
+        <span asp-validation-for="MaHeDaoTao" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MaNganh" class="form-label"></label>
+        <input asp-for="MaNganh" class="form-control" inputmode="numeric" />
+        <span asp-validation-for="MaNganh" class="text-danger"></span>
+        <div class="form-text">Ví dụ: 05 là mã ngành Công nghệ thông tin trong đề bài.</div>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="submit" class="btn btn-primary">Thêm sinh viên</button>
+    </div>
+</form>

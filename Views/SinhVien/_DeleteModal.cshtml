@@ -1,0 +1,26 @@
+@model DemoMVC.Models.SinhVien
+
+<form asp-action="Delete"
+      asp-route-id="@Model.MaSinhVien"
+      method="post"
+      data-student-ajax-form
+      data-success-message="Đã xóa sinh viên.">
+    <input type="hidden" name="id" value="@Model.MaSinhVien" />
+    <p>Bạn có chắc chắn muốn xóa sinh viên này không?</p>
+
+    <dl class="row">
+        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.MaSinhVien)</dt>
+        <dd class="col-sm-8">@Model.MaSinhVien</dd>
+
+        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.HoTen)</dt>
+        <dd class="col-sm-8">@Model.HoTen</dd>
+
+        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Khoa)</dt>
+        <dd class="col-sm-8">@Model.Khoa.TenKhoa (@Model.MaKhoa)</dd>
+    </dl>
+
+    <div class="d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="submit" class="btn btn-danger">Xóa</button>
+    </div>
+</form>

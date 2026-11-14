@@ -12,13 +12,23 @@ public class SinhVienController(AppDbContext context, SinhVienCodeGenerator code
 {
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
-        var sinhViens = await context.SinhViens
+        var sinhViens = await GetSinhViensAsync(cancellationToken);
+        return View(sinhViens);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> DanhSach(CancellationToken cancellationToken)
+    {
+        return PartialView("_DanhSach", await GetSinhViensAsync(cancellationToken));
+    }
+
+    private Task<List<SinhVien>> GetSinhViensAsync(CancellationToken cancellationToken)
+    {
+        return context.SinhViens
             .AsNoTracking()
             .Include(sinhVien => sinhVien.Khoa)
             .OrderBy(sinhVien => sinhVien.MaSinhVien)
             .ToListAsync(cancellationToken);
-
-        return View(sinhViens);
     }
 
     public async Task<IActionResult> Details(string? id, CancellationToken cancellationToken)
@@ -31,7 +41,7 @@ public class SinhVienController(AppDbContext context, SinhVienCodeGenerator code
             .Include(item => item.Khoa)
             .SingleOrDefaultAsync(item => item.MaSinhVien == id, cancellationToken);
 
-        return sinhVien is null ? NotFound() : View(sinhVien);
+        return sinhVien is null ? NotFound() : PartialView("_DetailsModal", sinhVien);
     }
 
     [HttpGet]
@@ -39,7 +49,7 @@ public class SinhVienController(AppDbContext context, SinhVienCodeGenerator code
     {
         var viewModel = new SinhVienCreateViewModel();
         await PopulateKhoaOptionsAsync(viewModel, cancellationToken);
-        return View(viewModel);
+        return PartialView("_CreateModal", viewModel);
     }
 
     [HttpPost]
@@ -57,7 +67,8 @@ public class SinhVienController(AppDbContext context, SinhVienCodeGenerator code
         if (!ModelState.IsValid)
         {
             await PopulateKhoaOptionsAsync(viewModel, cancellationToken);
-            return View(viewModel);
+            Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
+            return PartialView("_CreateModal", viewModel);
         }
 
         var sinhVien = new SinhVien
@@ -77,17 +88,18 @@ public class SinhVienController(AppDbContext context, SinhVienCodeGenerator code
         {
             ModelState.AddModelError(string.Empty, exception.Message);
             await PopulateKhoaOptionsAsync(viewModel, cancellationToken);
-            return View(viewModel);
+            Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
+            return PartialView("_CreateModal", viewModel);
         }
         catch (TimeoutException exception)
         {
             ModelState.AddModelError(string.Empty, exception.Message);
             await PopulateKhoaOptionsAsync(viewModel, cancellationToken);
-            return View(viewModel);
+            Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
+            return PartialView("_CreateModal", viewModel);
         }
 
-        TempData["ThongBao"] = $"Đã thêm sinh viên với mã {sinhVien.MaSinhVien}.";
-        return RedirectToAction(nameof(Details), new { id = sinhVien.MaSinhVien });
+        return NoContent();
     }
 
     [HttpGet]
@@ -110,7 +122,7 @@ public class SinhVienController(AppDbContext context, SinhVienCodeGenerator code
             MaKhoa = sinhVien.MaKhoa
         };
         await PopulateKhoaOptionsAsync(viewModel, cancellationToken);
-        return View(viewModel);
+        return PartialView("_EditModal", viewModel);
     }
 
     [HttpPost]
@@ -138,15 +150,15 @@ public class SinhVienController(AppDbContext context, SinhVienCodeGenerator code
         if (!ModelState.IsValid)
         {
             await PopulateKhoaOptionsAsync(viewModel, cancellationToken);
-            return View(viewModel);
+            Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
+            return PartialView("_EditModal", viewModel);
         }
 
         sinhVien.HoTen = viewModel.HoTen.Trim();
         sinhVien.MaKhoa = viewModel.MaKhoa;
         await context.SaveChangesAsync(cancellationToken);
 
-        TempData["ThongBao"] = "Đã cập nhật thông tin sinh viên.";
-        return RedirectToAction(nameof(Details), new { id = sinhVien.MaSinhVien });
+        return NoContent();
     }
 
     [HttpGet]
@@ -160,7 +172,7 @@ public class SinhVienController(AppDbContext context, SinhVienCodeGenerator code
             .Include(item => item.Khoa)
             .SingleOrDefaultAsync(item => item.MaSinhVien == id, cancellationToken);
 
-        return sinhVien is null ? NotFound() : View(sinhVien);
+        return sinhVien is null ? NotFound() : PartialView("_DeleteModal", sinhVien);
     }
 
     [HttpPost, ActionName("Delete")]
@@ -175,8 +187,7 @@ public class SinhVienController(AppDbContext context, SinhVienCodeGenerator code
         context.SinhViens.Remove(sinhVien);
         await context.SaveChangesAsync(cancellationToken);
 
-        TempData["ThongBao"] = "Đã xóa sinh viên.";
-        return RedirectToAction(nameof(Index));
+        return NoContent();
     }
 
     private async Task PopulateKhoaOptionsAsync(
