@@ -16,14 +16,50 @@ namespace DemoMVC.Controllers
         }
 
         // GET: Khoa
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? search, int page = 1, int pageSize = 10)
         {
-            var khoas = await _context.Khoas
+            search = string.IsNullOrWhiteSpace(search) ? null : search.Trim();
+            page = page < 1 ? 1 : page;
+            pageSize = pageSize is >= 5 and <= 50 ? pageSize : 10;
+
+            var query = _context.Khoas
                 .Include(k => k.SinhViens)
+                .AsQueryable();
+
+            if (search != null)
+            {
+                if (int.TryParse(search, out var maKhoa))
+                {
+                    query = query.Where(k =>
+                        k.TenKhoa.Contains(search) || k.MaKhoa == maKhoa);
+                }
+                else
+                {
+                    query = query.Where(k => k.TenKhoa.Contains(search));
+                }
+            }
+
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            if (totalPages > 0 && page > totalPages)
+                page = totalPages;
+
+            var khoas = await query
                 .OrderBy(k => k.MaKhoa)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
-            return View(khoas);
+            var model = new PagedResult<Khoa>
+            {
+                Items = khoas,
+                Page = page,
+                PageSize = pageSize,
+                TotalItems = totalItems,
+                SearchTerm = search
+            };
+
+            return View(model);
         }
 
         // GET: Khoa/Create

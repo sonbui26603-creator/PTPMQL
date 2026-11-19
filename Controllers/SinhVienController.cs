@@ -28,14 +28,56 @@ namespace DemoMVC.Controllers
         }
 
         // GET: SinhVien
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? search, int page = 1, int pageSize = 10)
         {
-            var sinhViens = await _context.SinhViens
+            search = string.IsNullOrWhiteSpace(search) ? null : search.Trim();
+            page = page < 1 ? 1 : page;
+            pageSize = pageSize is >= 5 and <= 50 ? pageSize : 10;
+
+            var query = _context.SinhViens
                 .Include(s => s.Khoa)
+                .AsQueryable();
+
+            if (search != null)
+            {
+                if (int.TryParse(search, out var id))
+                {
+                    query = query.Where(s =>
+                        s.HoTen.Contains(search) ||
+                        s.Email.Contains(search) ||
+                        s.Id == id ||
+                        (s.Khoa != null && s.Khoa.TenKhoa.Contains(search)));
+                }
+                else
+                {
+                    query = query.Where(s =>
+                        s.HoTen.Contains(search) ||
+                        s.Email.Contains(search) ||
+                        (s.Khoa != null && s.Khoa.TenKhoa.Contains(search)));
+                }
+            }
+
+            var totalItems = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            if (totalPages > 0 && page > totalPages)
+                page = totalPages;
+
+            var sinhViens = await query
                 .OrderBy(s => s.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
-            return View(sinhViens);
+            var model = new PagedResult<SinhVien>
+            {
+                Items = sinhViens,
+                Page = page,
+                PageSize = pageSize,
+                TotalItems = totalItems,
+                SearchTerm = search
+            };
+
+            return View(model);
         }
 
         // GET: SinhVien/Details/5

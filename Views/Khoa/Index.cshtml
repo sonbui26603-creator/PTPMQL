@@ -1,5 +1,5 @@
 
-@model IEnumerable<DemoMVC.Models.Khoa>
+@model DemoMVC.Models.PagedResult<DemoMVC.Models.Khoa>
 
 @{
     ViewData["Title"] = "Danh sách khoa";
@@ -14,9 +14,16 @@
     </div>
 }
 
-<p>
+<div class="d-flex justify-content-between align-items-center mb-3">
     <a asp-action="Create" class="btn btn-primary">Thêm khoa</a>
-</p>
+
+    <form method="get" class="d-flex gap-2">
+        <input type="text" name="search" value="@Model.SearchTerm"
+               class="form-control" placeholder="Tìm khoa..." />
+        <input type="hidden" name="pageSize" value="@Model.PageSize" />
+        <button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>
+    </form>
+</div>
 
 <table class="table table-bordered">
     <thead>
@@ -28,7 +35,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var khoa in Model)
+        @foreach (var khoa in Model.Items)
         {
             <tr>
                 <td>@khoa.MaKhoa</td>
@@ -44,3 +51,38 @@
         }
     </tbody>
 </table>
+
+<div class="d-flex justify-content-between align-items-center">
+    <span>Hiển thị @Model.Items.Count trên tổng số @Model.TotalItems bản ghi</span>
+
+    @if (Model.TotalPages > 1)
+    {
+        <nav>
+            <ul class="pagination mb-0">
+                <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                    <a class="page-link" asp-action="Index"
+                       asp-route-search="@Model.SearchTerm"
+                       asp-route-page="@(Model.Page - 1)"
+                       asp-route-pageSize="@Model.PageSize">Trước</a>
+                </li>
+
+                @for (var i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.Page ? "active" : "")">
+                        <a class="page-link" asp-action="Index"
+                           asp-route-search="@Model.SearchTerm"
+                           asp-route-page="@i"
+                           asp-route-pageSize="@Model.PageSize">@i</a>
+                    </li>
+                }
+
+                <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                    <a class="page-link" asp-action="Index"
+                       asp-route-search="@Model.SearchTerm"
+                       asp-route-page="@(Model.Page + 1)"
+                       asp-route-pageSize="@Model.PageSize">Sau</a>
+                </li>
+            </ul>
+        </nav>
+    }
+</div>
