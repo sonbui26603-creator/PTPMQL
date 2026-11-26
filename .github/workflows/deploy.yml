@@ -1,3 +1,4 @@
+
 name: Deploy .NET 10 MVC to MonsterASP.net
 
 on:
@@ -22,17 +23,42 @@ jobs:
         shell: bash
         run: |
           PROJECT=$(find . -name "*.csproj" | head -n 1)
+
           if [ -z "$PROJECT" ]; then
             echo "No .csproj file found."
             exit 1
           fi
+
+          echo "Publishing: $PROJECT"
           dotnet publish "$PROJECT" -c Release -o ./publish
+
+      - name: Validate FTP settings
+        shell: bash
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          if [ -z "$FTP_SERVER" ] || [ -z "$FTP_USERNAME" ] || [ -z "$FTP_PASSWORD" ]; then
+            echo "FTP Secrets are missing or empty!"
+            exit 1
+          fi
+
+          echo "FTP settings are configured."
 
       - name: Stop Server
         shell: bash
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
           echo "<html><body><h1>Updating...</h1></body></html>" > app_offline.htm
-          curl -sS --ftp-pasv -u "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" -T app_offline.htm "ftp://${{ secrets.FTP_SERVER }}/wwwroot/app_offline.htm"
+
+          curl --fail --show-error --silent --ftp-pasv \
+            --user "$FTP_USERNAME:$FTP_PASSWORD" \
+            --upload-file app_offline.htm \
+            "ftp://$FTP_SERVER/wwwroot/app_offline.htm"
 
       - name: Deploy App
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -51,5 +77,17 @@ jobs:
       - name: Start Server
         if: always()
         shell: bash
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
         run: |
-          curl -sS --ftp-pasv -u "${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }}" "ftp://${{ secrets.FTP_SERVER }}/" -Q "-DELE /wwwroot/app_offline.htm" || true
+          if [ -z "$FTP_SERVER" ] || [ -z "$FTP_USERNAME" ] || [ -z "$FTP_PASSWORD" ]; then
+            echo "FTP settings missing. Cannot remove app_offline.htm."
+            exit 0
+          fi
+
+          curl --fail --show-error --silent --ftp-pasv \
+            --user "$FTP_USERNAME:$FTP_PASSWORD" \
+            --quote "-DELE /wwwroot/app_offline.htm" \
+            "ftp://$FTP_SERVER/" || true
