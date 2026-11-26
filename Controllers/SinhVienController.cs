@@ -1,12 +1,15 @@
 
 using DemoMVC.Data;
 using DemoMVC.Models;
+using DemoMVC.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace DemoMVC.Controllers
 {
+    [Authorize]
     public class SinhVienController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -97,6 +100,7 @@ namespace DemoMVC.Controllers
         }
 
         // GET: SinhVien/Create
+        [Authorize(Roles = IdentitySeeder.AdminRole)]
         public async Task<IActionResult> Create()
         {
             await NapDanhSachKhoa();
@@ -106,6 +110,7 @@ namespace DemoMVC.Controllers
         // POST: SinhVien/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = IdentitySeeder.AdminRole)]
         public async Task<IActionResult> Create(SinhVien sinhVien)
         {
             if (!await _context.Khoas.AnyAsync(
@@ -128,6 +133,7 @@ namespace DemoMVC.Controllers
         }
 
         // GET: SinhVien/Edit/5
+        [Authorize(Roles = IdentitySeeder.AdminRole)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -145,6 +151,7 @@ namespace DemoMVC.Controllers
         // POST: SinhVien/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = IdentitySeeder.AdminRole)]
         public async Task<IActionResult> Edit(
             int id, SinhVien sinhVien)
         {
@@ -171,6 +178,7 @@ namespace DemoMVC.Controllers
         }
 
         // GET: SinhVien/Delete/5
+        [Authorize(Roles = IdentitySeeder.AdminRole)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -189,6 +197,7 @@ namespace DemoMVC.Controllers
         // POST: SinhVien/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = IdentitySeeder.AdminRole)]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var sinhVien = await _context.SinhViens.FindAsync(id);

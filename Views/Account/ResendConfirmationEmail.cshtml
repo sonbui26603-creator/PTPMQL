@@ -1,0 +1,20 @@
+@model DemoMVC.Models.ForgotPasswordViewModel
+@{
+    ViewData["Title"] = "Gửi lại email xác thực";
+}
+
+<h1>Gửi lại email xác thực</h1>
+<p>Nhập email đăng ký. Nếu tài khoản chưa xác thực, hướng dẫn sẽ được gửi lại.</p>
+<form asp-action="ResendConfirmationEmail" method="post" class="col-md-6">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" autocomplete="email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Gửi lại email</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

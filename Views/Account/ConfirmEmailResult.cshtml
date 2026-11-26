@@ -1,0 +1,15 @@
+@model bool
+@{
+    ViewData["Title"] = "Kết quả xác thực";
+}
+
+<h1>Xác thực tài khoản</h1>
+@if (Model)
+{
+    <p>Email đã được xác thực. Bạn có thể đăng nhập.</p>
+    <a asp-action="Login" class="btn btn-primary">Đăng nhập</a>
+}
+else
+{
+    <p>Liên kết xác thực không hợp lệ hoặc đã hết hạn.</p>
+}

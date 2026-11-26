@@ -1,11 +1,14 @@
 
 using DemoMVC.Data;
 using DemoMVC.Models;
+using DemoMVC.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace DemoMVC.Controllers
 {
+    [Authorize]
     public class KhoaController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -63,6 +66,7 @@ namespace DemoMVC.Controllers
         }
 
         // GET: Khoa/Create
+        [Authorize(Roles = IdentitySeeder.AdminRole)]
         public IActionResult Create()
         {
             return View();
@@ -71,6 +75,7 @@ namespace DemoMVC.Controllers
         // POST: Khoa/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = IdentitySeeder.AdminRole)]
         public async Task<IActionResult> Create(Khoa khoa)
         {
             if (!ModelState.IsValid)
@@ -83,6 +88,7 @@ namespace DemoMVC.Controllers
         }
 
         // GET: Khoa/Edit/5
+        [Authorize(Roles = IdentitySeeder.AdminRole)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -99,6 +105,7 @@ namespace DemoMVC.Controllers
         // POST: Khoa/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = IdentitySeeder.AdminRole)]
         public async Task<IActionResult> Edit(int id, Khoa khoa)
         {
             if (id != khoa.MaKhoa)
@@ -114,6 +121,7 @@ namespace DemoMVC.Controllers
         }
 
         // GET: Khoa/Delete/5
+        [Authorize(Roles = IdentitySeeder.AdminRole)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -132,6 +140,7 @@ namespace DemoMVC.Controllers
         // POST: Khoa/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = IdentitySeeder.AdminRole)]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var khoa = await _context.Khoas

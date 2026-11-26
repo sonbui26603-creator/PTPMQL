@@ -8,7 +8,10 @@
 <h1>Danh sách sinh viên</h1>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <a asp-action="Create" class="btn btn-primary">Thêm sinh viên</a>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Create" class="btn btn-primary">Thêm sinh viên</a>
+    }
 
     <form method="get" class="d-flex gap-2">
         <input type="text" name="search" value="@Model.SearchTerm"
@@ -38,11 +41,18 @@
                 <td>@sv.Email</td>
                 <td>@sv.Tuoi</td>
                 <td>@(sv.Khoa?.TenKhoa ?? "Chưa có khoa")</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@sv.Id">Chi tiết</a> |
-                    <a asp-action="Edit" asp-route-id="@sv.Id">Sửa</a> |
-                    <a asp-action="Delete" asp-route-id="@sv.Id">Xóa</a>
-                </td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <td>
+                        <a asp-action="Details" asp-route-id="@sv.Id">Chi tiết</a> |
+                        <a asp-action="Edit" asp-route-id="@sv.Id">Sửa</a> |
+                        <a asp-action="Delete" asp-route-id="@sv.Id">Xóa</a>
+                    </td>
+                }
+                else
+                {
+                    <td><a asp-action="Details" asp-route-id="@sv.Id">Chi tiết</a></td>
+                }
             </tr>
         }
     </tbody>
